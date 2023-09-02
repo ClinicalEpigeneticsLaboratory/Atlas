@@ -81,4 +81,4 @@ class Atlas:
             "25",
         ]
 
-        call(command, shell=True)
+        call(command)
