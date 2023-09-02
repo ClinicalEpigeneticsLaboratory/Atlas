@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "atlas"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+jupyter = "^1.0.0"
+plotly = "^5.16.1"
+pandas = "^2.1.0"
+tqdm = "^4.66.1"
+numpy = "^1.25.2"
+pyarrow = "^13.0.0"
+pyyaml = "^6.0.1"
+prefect = "^2.12.1"
+jupyterlab = "^4.0.5"
+ipython = "^8.15.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.5.1"
+types-requests = "^2.31.0.2"
+pandas-stubs = "^2.0.3.230814"
+black = "^23.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
