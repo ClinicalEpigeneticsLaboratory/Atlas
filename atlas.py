@@ -4,10 +4,10 @@ from subprocess import call
 from glob import glob
 
 import pandas as pd
-import setuptools.command.egg_info
 
 from src.build_manifest_flow import request_gdc_service, build_manifest, constrain
 from src.data_proceesing_flow import prepare_exp_data, prepare_meth_data, validate_data, mark_outliers
+from src.blocks import build_genome_map, estimate_associations_within_blocks, export_blocks_stats
 from src.config import load_config, export_config, add_filters
 
 
@@ -17,6 +17,7 @@ class Atlas:
         project_directory: str,
         primary_site: str,
         diagnosis: str,
+        manifest: str,
         n: int = 200,
         config: str = "config.json",
     ):
@@ -25,6 +26,7 @@ class Atlas:
         self.diagnosis = diagnosis
         self.n = n
         self.config = config
+        self.manifest = pd.read_parquet(manifest)
 
     def prepare_project_dir(self) -> None:
         for sub_dir in ["data/raw", "data/interim", "data/processed", "results"]:
@@ -117,3 +119,10 @@ class Atlas:
 
         methylation[common].to_parquet(join(self.project_directory, "methylation.parquet"))
         expression[common].to_parquet(join(self.project_directory, "expression.parquet"))
+
+    def find_blocks(self) -> None:
+        cmaps = build_genome_map(self.manifest)
+
+        methylation = pd.read_parquet(join(self.project_directory, "methylation.parquet"))
+        stats_per_chr = estimate_associations_within_blocks(cmaps, methylation)
+        export_blocks_stats(stats_per_chr, self.project_directory)
