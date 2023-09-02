@@ -121,8 +121,8 @@ class Atlas:
         expression[common].to_parquet(join(self.project_directory, "expression.parquet"))
 
     def find_blocks(self) -> None:
-        cmaps = build_genome_map(self.manifest)
-
         methylation = pd.read_parquet(join(self.project_directory, "methylation.parquet"))
+        cmaps = build_genome_map(self.manifest, methylation)
+
         stats_per_chr = estimate_associations_within_blocks(cmaps, methylation.T)
         export_blocks_stats(stats_per_chr, self.project_directory)
