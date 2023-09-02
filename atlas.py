@@ -101,7 +101,7 @@ class Atlas:
         validate_data(methylation, expression)
 
         met_olist = mark_outliers(methylation.T, join(self.project_directory, "met_pca.png"))
-        exp_olist = mark_outliers(expression.T, join(self.project_directory, "met_pca.png"))
+        exp_olist = mark_outliers(expression.T, join(self.project_directory, "exp_pca.png"))
 
         met_to_drop = met_olist[met_olist == "outlier"].index
         exp_to_drop = exp_olist[exp_olist == "outlier"].index

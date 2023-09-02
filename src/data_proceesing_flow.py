@@ -76,7 +76,7 @@ def validate_data(meth_dataset: pd.DataFrame, exp_dataset: pd.DataFrame) -> None
     print(f"Datasets validated, found {len(intersect)} common samples.")
 
 
-def mark_outliers(raw_dataset: pd.DataFrame, pca_plot_path: str, n: int = 25) -> pd.Series:
+def mark_outliers(raw_dataset: pd.DataFrame, pca_plot_path: str, n: int = 10) -> pd.Series:
     pca = PCA(n_components=n)
 
     dataset = StandardScaler().fit_transform(raw_dataset)
