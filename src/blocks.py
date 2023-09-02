@@ -5,12 +5,14 @@ from tqdm import tqdm
 import scipy.stats as sts
 
 
-def build_genome_map(manifest: pd.DataFrame) -> dict:
+def build_genome_map(manifest: pd.DataFrame, methylation: pd.DataFrame) -> dict:
     cmaps = {}
+    cpgs = set(methylation.index)
+    manifest = manifest.loc[list(cpgs.intersection(set(manifest.index)))]
 
     for chr_ in tqdm(manifest.CHR.unique()):
         temp = manifest[manifest.CHR == chr_]
-        temp_distance_matrix = temp["MAPINFO"].astype(int)
+        temp_distance_matrix = temp["MAPINFO"]
         temp_distance_matrix = temp_distance_matrix.sort_values(ascending=True)
         cmaps[chr_] = temp_distance_matrix
 

@@ -124,5 +124,5 @@ class Atlas:
         cmaps = build_genome_map(self.manifest)
 
         methylation = pd.read_parquet(join(self.project_directory, "methylation.parquet"))
-        stats_per_chr = estimate_associations_within_blocks(cmaps, methylation)
+        stats_per_chr = estimate_associations_within_blocks(cmaps, methylation.T)
         export_blocks_stats(stats_per_chr, self.project_directory)
