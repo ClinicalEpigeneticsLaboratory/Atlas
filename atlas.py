@@ -1,6 +1,7 @@
 from os import makedirs
 from os.path import join, exists
 from subprocess import call
+from glob import glob
 
 import pandas as pd
 
@@ -65,6 +66,14 @@ class Atlas:
         n_process: int = 10,
     ) -> None:
         output_path = join(self.project_directory, "data/raw")
+
+        files_in_path = glob(join(output_path, "*"))
+        files_declared_in_manifest = pd.read_table(join(self.project_directory, "manifest")).index
+
+        if len(files_in_path) == len(files_declared_in_manifest):
+            print("Raw data already exist. Skipping.")
+            return None
+
         command = [
             f"{gdc_executable}",
             "download",
@@ -81,3 +90,6 @@ class Atlas:
         ]
 
         call(command)
+
+    def build_frames(self):
+        pass

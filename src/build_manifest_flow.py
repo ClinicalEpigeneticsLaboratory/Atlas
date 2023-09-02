@@ -8,7 +8,7 @@ import pandas as pd
 def request_gdc_service(
     fields: list,
     filters: dict,
-    n_records: int = 10000,
+    n_records: int = 100000,
 ) -> pd.DataFrame:
     """
     Function requests GDC service to get files described in config file.
@@ -30,6 +30,7 @@ def request_gdc_service(
 
     resp_table = resp_table[resp_table.platform != "Illumina Human Methylation 27"]
     resp_table.columns = [name.split(".")[-1] for name in resp_table.columns]
+    resp_table = resp_table.loc[:, ~resp_table.columns.duplicated(keep="first")]
 
     return resp_table
 
