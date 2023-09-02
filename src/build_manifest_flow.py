@@ -1,4 +1,3 @@
-from os import PathLike
 import json
 import requests
 from io import StringIO

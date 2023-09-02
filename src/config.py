@@ -1,4 +1,3 @@
-from os import PathLike
 import json
 from os.path import exists
 
@@ -7,7 +6,7 @@ class ConfigFileNotFound(Exception):
     pass
 
 
-def load_config(path: str | PathLike) -> None | dict:
+def load_config(path: str) -> dict:
     if not exists(path):
         raise ConfigFileNotFound
 
@@ -16,7 +15,7 @@ def load_config(path: str | PathLike) -> None | dict:
         return config_file
 
 
-def export_config(config: dict, path: str | PathLike) -> None:
+def export_config(config: dict, path: str) -> None:
     with open(path, "w") as file:
         file.write(json.dumps(config))
 

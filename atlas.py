@@ -1,4 +1,4 @@
-from os import PathLike, makedirs
+from os import makedirs
 from os.path import join, exists
 from subprocess import call
 
@@ -11,11 +11,11 @@ from src.config import load_config, export_config, add_filters
 class Atlas:
     def __init__(
         self,
-        project_directory: str | PathLike,
+        project_directory: str,
         primary_site: str,
         diagnosis: str,
         n: int = 200,
-        config: str | PathLike = "config.json",
+        config: str = "config.json",
     ):
         self.project_directory = project_directory
         self.primary_site = primary_site
@@ -61,8 +61,8 @@ class Atlas:
 
     def download_data(
         self,
-        manifest_path: str | PathLike,
-        gdc_executable: str | PathLike,
+        manifest_path: str,
+        gdc_executable: str,
         n_process: int = 10,
     ) -> None:
         output_path = join(self.project_directory, "data/raw")
@@ -81,4 +81,4 @@ class Atlas:
             "25",
         ]
 
-        call(command)
+        call(command, shell=True)
