@@ -55,7 +55,6 @@ class Atlas:
         manifest.to_csv(
             manifest_path,
             sep="\t",
-            header=False,
             index=False,
         )
 
