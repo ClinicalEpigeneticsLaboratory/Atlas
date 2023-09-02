@@ -101,3 +101,13 @@ class Atlas:
 
         met_olist = mark_outliers(methylation, join(self.project_directory, "met_pca.png"))
         exp_olist = mark_outliers(expression, join(self.project_directory, "met_pca.png"))
+
+        met_to_drop = met_olist[met_olist == "outlier"].index
+        exp_to_drop = exp_olist[exp_olist == "outlier"].index
+
+        methylation = methylation.drop(met_to_drop, axis=1)
+        expression = methylation.drop(exp_to_drop, axis=1)
+
+        methylation.to_parquet(join(self.project_directory, "methylation.parquet"))
+        expression.to_parquet(join(self.project_directory, "expression.parquet"))
+        

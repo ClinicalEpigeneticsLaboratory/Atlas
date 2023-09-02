@@ -73,6 +73,7 @@ def validate_data(meth_dataset: pd.DataFrame, exp_dataset: pd.DataFrame) -> None
 
     if len(intersect) < 100:
         raise LowFractionOfCommonSamplesError
+    print(f"Datasets validated, found {len(intersect)} common samples.")
 
 
 def mark_outliers(raw_dataset: pd.DataFrame, pca_plot_path: str, n: int = 25) -> pd.Series:
@@ -87,6 +88,9 @@ def mark_outliers(raw_dataset: pd.DataFrame, pca_plot_path: str, n: int = 25) ->
 
     outliers = pd.Series(prediction, index=raw_dataset.index, name="Outliers")
     outliers = outliers.replace({1: "inlier", -1: "outlier"})
+
+    print(f"Outliers table: ")
+    print(outliers.value_counts())
 
     pc1, pc2 = pca.explained_variance_ratio_[:2]
     pc1, pc2 = round(pc1 * 100, 1), round(pc2 * 100, 1)
