@@ -106,7 +106,7 @@ class Atlas:
         exp_to_drop = exp_olist[exp_olist == "outlier"].index
 
         methylation = methylation.drop(met_to_drop, axis=1)
-        expression = methylation.drop(exp_to_drop, axis=1)
+        expression = expression.drop(exp_to_drop, axis=1)
 
         methylation.to_parquet(join(self.project_directory, "methylation.parquet"))
         expression.to_parquet(join(self.project_directory, "expression.parquet"))
