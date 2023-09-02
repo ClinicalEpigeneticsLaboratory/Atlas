@@ -6,6 +6,7 @@ from glob import glob
 import pandas as pd
 
 from src.build_manifest_flow import request_gdc_service, build_manifest, constrain
+from src.data_proceesing_flow import prepare_exp_data, prepare_meth_data, validate_data, mark_outliers
 from src.config import load_config, export_config, add_filters
 
 
@@ -80,16 +81,23 @@ class Atlas:
             "-n",
             f"{n_process}",
             "--wait-time",
-            "5",
+            "10",
             "-m",
             f"{manifest_path}",
             "-d",
             f"{output_path}",
             "--retry-amount",
-            "25",
+            "30",
         ]
 
         call(command)
 
     def build_frames(self):
-        pass
+        sample_sheet = pd.read_csv(join(self.project_directory, "sample_sheet.csv"), index_col=0)
+
+        methylation = prepare_meth_data(sample_sheet, join(self.project_directory, "data/raw"))
+        expression = prepare_exp_data(sample_sheet, join(self.project_directory, "data/raw"))
+        validate_data(methylation, expression)
+
+        met_olist = mark_outliers(methylation, join(self.project_directory, "met_pca.png"))
+        exp_olist = mark_outliers(expression, join(self.project_directory, "met_pca.png"))
