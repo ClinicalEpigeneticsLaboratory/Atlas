@@ -28,14 +28,14 @@ def estimate_associations_within_blocks(cmaps: dict, methylation: pd.DataFrame, 
             if cpg in already_assigned_cpgs:
                 continue
 
-            cpg_met_levels = methylation.loc[cpg]
+            cpg_met_levels = methylation[cpg]
 
             consecutive_cpgs_distance = cmap - cmap.loc[cpg]
             consecutive_cpgs_distance = consecutive_cpgs_distance[(consecutive_cpgs_distance > 0) &
                                                                   (consecutive_cpgs_distance < distance)]
 
             for consecutive_cpg in consecutive_cpgs_distance.index:
-                consecutive_cpg_met_levels = methylation.loc[consecutive_cpg]
+                consecutive_cpg_met_levels = methylation[consecutive_cpg]
                 corr = sts.pearsonr(cpg_met_levels, consecutive_cpg_met_levels)
                 coef, pval = corr.statistic, corr.pvalue
 
