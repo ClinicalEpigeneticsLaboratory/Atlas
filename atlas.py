@@ -4,6 +4,7 @@ from subprocess import call
 from glob import glob
 
 import pandas as pd
+import setuptools.command.egg_info
 
 from src.build_manifest_flow import request_gdc_service, build_manifest, constrain
 from src.data_proceesing_flow import prepare_exp_data, prepare_meth_data, validate_data, mark_outliers
@@ -108,5 +109,11 @@ class Atlas:
         methylation = methylation.drop(met_to_drop, axis=1)
         expression = expression.drop(exp_to_drop, axis=1)
 
-        methylation.to_parquet(join(self.project_directory, "methylation.parquet"))
-        expression.to_parquet(join(self.project_directory, "expression.parquet"))
+        common = list(set.intersection(set(methylation.columns),
+                                       set(expression.columns)))
+
+        print(f"Final methylation: {methylation.shape}")
+        print(f"Final expression: {expression.shape}")
+
+        methylation[common].to_parquet(join(self.project_directory, "methylation.parquet"))
+        expression[common].to_parquet(join(self.project_directory, "expression.parquet"))
