@@ -112,8 +112,8 @@ class Atlas:
         common = list(set.intersection(set(methylation.columns),
                                        set(expression.columns)))
 
-        print(f"Final methylation: {methylation.shape}")
-        print(f"Final expression: {expression.shape}")
+        print(f"Final methylation: {methylation[common].shape}")
+        print(f"Final expression: {expression[common].shape}")
 
         methylation[common].to_parquet(join(self.project_directory, "methylation.parquet"))
         expression[common].to_parquet(join(self.project_directory, "expression.parquet"))
