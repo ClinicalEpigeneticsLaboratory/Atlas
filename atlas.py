@@ -99,8 +99,8 @@ class Atlas:
         expression = prepare_exp_data(sample_sheet, join(self.project_directory, "data/raw"))
         validate_data(methylation, expression)
 
-        met_olist = mark_outliers(methylation, join(self.project_directory, "met_pca.png"))
-        exp_olist = mark_outliers(expression, join(self.project_directory, "met_pca.png"))
+        met_olist = mark_outliers(methylation.T, join(self.project_directory, "met_pca.png"))
+        exp_olist = mark_outliers(expression.T, join(self.project_directory, "met_pca.png"))
 
         met_to_drop = met_olist[met_olist == "outlier"].index
         exp_to_drop = exp_olist[exp_olist == "outlier"].index
@@ -110,4 +110,3 @@ class Atlas:
 
         methylation.to_parquet(join(self.project_directory, "methylation.parquet"))
         expression.to_parquet(join(self.project_directory, "expression.parquet"))
-        
