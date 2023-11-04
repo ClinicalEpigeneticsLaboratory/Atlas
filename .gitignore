@@ -9,6 +9,7 @@ __pycache__/
 # custom
 data/
 .idea/
+*.gz
 
 # Distribution / packaging
 .Python
